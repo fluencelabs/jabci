@@ -24,4 +24,17 @@ public interface VoteInfoOrBuilder extends
    * <code>bool signed_last_block = 2;</code>
    */
   boolean getSignedLastBlock();
+
+  /**
+   * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+   */
+  boolean hasFullVote();
+  /**
+   * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+   */
+  com.github.jtendermint.jabci.types.Vote getFullVote();
+  /**
+   * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+   */
+  com.github.jtendermint.jabci.types.VoteOrBuilder getFullVoteOrBuilder();
 }

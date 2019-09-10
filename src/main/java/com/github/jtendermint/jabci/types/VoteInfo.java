@@ -64,6 +64,19 @@ private static final long serialVersionUID = 0L;
             signedLastBlock_ = input.readBool();
             break;
           }
+          case 26: {
+            com.github.jtendermint.jabci.types.Vote.Builder subBuilder = null;
+            if (fullVote_ != null) {
+              subBuilder = fullVote_.toBuilder();
+            }
+            fullVote_ = input.readMessage(com.github.jtendermint.jabci.types.Vote.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(fullVote_);
+              fullVote_ = subBuilder.buildPartial();
+            }
+
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -126,6 +139,27 @@ private static final long serialVersionUID = 0L;
     return signedLastBlock_;
   }
 
+  public static final int FULL_VOTE_FIELD_NUMBER = 3;
+  private com.github.jtendermint.jabci.types.Vote fullVote_;
+  /**
+   * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+   */
+  public boolean hasFullVote() {
+    return fullVote_ != null;
+  }
+  /**
+   * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+   */
+  public com.github.jtendermint.jabci.types.Vote getFullVote() {
+    return fullVote_ == null ? com.github.jtendermint.jabci.types.Vote.getDefaultInstance() : fullVote_;
+  }
+  /**
+   * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+   */
+  public com.github.jtendermint.jabci.types.VoteOrBuilder getFullVoteOrBuilder() {
+    return getFullVote();
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -146,6 +180,9 @@ private static final long serialVersionUID = 0L;
     if (signedLastBlock_ != false) {
       output.writeBool(2, signedLastBlock_);
     }
+    if (fullVote_ != null) {
+      output.writeMessage(3, getFullVote());
+    }
     unknownFields.writeTo(output);
   }
 
@@ -162,6 +199,10 @@ private static final long serialVersionUID = 0L;
     if (signedLastBlock_ != false) {
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(2, signedLastBlock_);
+    }
+    if (fullVote_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(3, getFullVote());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -185,6 +226,11 @@ private static final long serialVersionUID = 0L;
     }
     if (getSignedLastBlock()
         != other.getSignedLastBlock()) return false;
+    if (hasFullVote() != other.hasFullVote()) return false;
+    if (hasFullVote()) {
+      if (!getFullVote()
+          .equals(other.getFullVote())) return false;
+    }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -203,6 +249,10 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + SIGNED_LAST_BLOCK_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getSignedLastBlock());
+    if (hasFullVote()) {
+      hash = (37 * hash) + FULL_VOTE_FIELD_NUMBER;
+      hash = (53 * hash) + getFullVote().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -348,6 +398,12 @@ private static final long serialVersionUID = 0L;
       }
       signedLastBlock_ = false;
 
+      if (fullVoteBuilder_ == null) {
+        fullVote_ = null;
+      } else {
+        fullVote_ = null;
+        fullVoteBuilder_ = null;
+      }
       return this;
     }
 
@@ -380,6 +436,11 @@ private static final long serialVersionUID = 0L;
         result.validator_ = validatorBuilder_.build();
       }
       result.signedLastBlock_ = signedLastBlock_;
+      if (fullVoteBuilder_ == null) {
+        result.fullVote_ = fullVote_;
+      } else {
+        result.fullVote_ = fullVoteBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -433,6 +494,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getSignedLastBlock() != false) {
         setSignedLastBlock(other.getSignedLastBlock());
+      }
+      if (other.hasFullVote()) {
+        mergeFullVote(other.getFullVote());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -604,6 +668,123 @@ private static final long serialVersionUID = 0L;
       signedLastBlock_ = false;
       onChanged();
       return this;
+    }
+
+    private com.github.jtendermint.jabci.types.Vote fullVote_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.github.jtendermint.jabci.types.Vote, com.github.jtendermint.jabci.types.Vote.Builder, com.github.jtendermint.jabci.types.VoteOrBuilder> fullVoteBuilder_;
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public boolean hasFullVote() {
+      return fullVoteBuilder_ != null || fullVote_ != null;
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public com.github.jtendermint.jabci.types.Vote getFullVote() {
+      if (fullVoteBuilder_ == null) {
+        return fullVote_ == null ? com.github.jtendermint.jabci.types.Vote.getDefaultInstance() : fullVote_;
+      } else {
+        return fullVoteBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public Builder setFullVote(com.github.jtendermint.jabci.types.Vote value) {
+      if (fullVoteBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        fullVote_ = value;
+        onChanged();
+      } else {
+        fullVoteBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public Builder setFullVote(
+        com.github.jtendermint.jabci.types.Vote.Builder builderForValue) {
+      if (fullVoteBuilder_ == null) {
+        fullVote_ = builderForValue.build();
+        onChanged();
+      } else {
+        fullVoteBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public Builder mergeFullVote(com.github.jtendermint.jabci.types.Vote value) {
+      if (fullVoteBuilder_ == null) {
+        if (fullVote_ != null) {
+          fullVote_ =
+            com.github.jtendermint.jabci.types.Vote.newBuilder(fullVote_).mergeFrom(value).buildPartial();
+        } else {
+          fullVote_ = value;
+        }
+        onChanged();
+      } else {
+        fullVoteBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public Builder clearFullVote() {
+      if (fullVoteBuilder_ == null) {
+        fullVote_ = null;
+        onChanged();
+      } else {
+        fullVote_ = null;
+        fullVoteBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public com.github.jtendermint.jabci.types.Vote.Builder getFullVoteBuilder() {
+      
+      onChanged();
+      return getFullVoteFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    public com.github.jtendermint.jabci.types.VoteOrBuilder getFullVoteOrBuilder() {
+      if (fullVoteBuilder_ != null) {
+        return fullVoteBuilder_.getMessageOrBuilder();
+      } else {
+        return fullVote_ == null ?
+            com.github.jtendermint.jabci.types.Vote.getDefaultInstance() : fullVote_;
+      }
+    }
+    /**
+     * <code>.com.github.jtendermint.jabci.types.Vote full_vote = 3;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.github.jtendermint.jabci.types.Vote, com.github.jtendermint.jabci.types.Vote.Builder, com.github.jtendermint.jabci.types.VoteOrBuilder> 
+        getFullVoteFieldBuilder() {
+      if (fullVoteBuilder_ == null) {
+        fullVoteBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.github.jtendermint.jabci.types.Vote, com.github.jtendermint.jabci.types.Vote.Builder, com.github.jtendermint.jabci.types.VoteOrBuilder>(
+                getFullVote(),
+                getParentForChildren(),
+                isClean());
+        fullVote_ = null;
+      }
+      return fullVoteBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(
