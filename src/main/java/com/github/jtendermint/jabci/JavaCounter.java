@@ -23,33 +23,22 @@
  */
 package com.github.jtendermint.jabci;
 
+import com.github.jtendermint.jabci.api.*;
+import com.github.jtendermint.jabci.socket.ExceptionListener.Event;
+import com.github.jtendermint.jabci.socket.TSocket;
+import com.github.jtendermint.jabci.types.*;
+import com.google.protobuf.ByteString;
+
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-
-import com.github.jtendermint.jabci.api.CodeType;
-import com.github.jtendermint.jabci.api.ICheckTx;
-import com.github.jtendermint.jabci.api.ICommit;
-import com.github.jtendermint.jabci.api.IDeliverTx;
-import com.github.jtendermint.jabci.api.IQuery;
-import com.github.jtendermint.jabci.socket.ExceptionListener.Event;
-import com.github.jtendermint.jabci.socket.TSocket;
-import com.github.jtendermint.jabci.types.RequestCheckTx;
-import com.github.jtendermint.jabci.types.RequestCommit;
-import com.github.jtendermint.jabci.types.RequestDeliverTx;
-import com.github.jtendermint.jabci.types.RequestQuery;
-import com.github.jtendermint.jabci.types.ResponseCheckTx;
-import com.github.jtendermint.jabci.types.ResponseCommit;
-import com.github.jtendermint.jabci.types.ResponseDeliverTx;
-import com.github.jtendermint.jabci.types.ResponseQuery;
-import com.google.protobuf.ByteString;
 
 /**
  * Implements a sample counter app. every tx-data must be bigger than the current amount of tx
  *
  * @author wolfposd
  */
-public final class JavaCounter implements IDeliverTx, ICheckTx, ICommit, IQuery {
+public final class JavaCounter implements IDeliverTx, ICheckTx, ICommit, IQuery, IBeginBlock {
 
     private int hashCount = 0;
     private int txCount = 0;
@@ -154,13 +143,25 @@ public final class JavaCounter implements IDeliverTx, ICheckTx, ICommit, IQuery 
         switch (query) {
             case "hash":
                 return ResponseQuery.newBuilder().setCode(CodeType.OK)
-                    .setValue(ByteString.copyFrom(("" + hashCount).getBytes(Charset.forName("UTF-8")))).build();
+                        .setValue(ByteString.copyFrom(("" + hashCount).getBytes(Charset.forName("UTF-8")))).build();
             case "tx":
                 return ResponseQuery.newBuilder().setCode(CodeType.OK)
-                    .setValue(ByteString.copyFrom(("" + txCount).getBytes(Charset.forName("UTF-8")))).build();
+                        .setValue(ByteString.copyFrom(("" + txCount).getBytes(Charset.forName("UTF-8")))).build();
             default:
                 return ResponseQuery.newBuilder().setCode(CodeType.BadNonce).setLog("Invalid query path. Expected hash or tx, got " + query)
-                    .build();
+                        .build();
         }
+    }
+
+    @Override
+    public ResponseBeginBlock requestBeginBlock(RequestBeginBlock req) {
+        req
+                .getLastCommitInfo()
+                .getVotesList()
+                .stream()
+                .map(v -> v.getFullVote().toString())
+                .forEach(v -> System.out.println("BeginBlock vote:" + v));
+
+        return ResponseBeginBlock.newBuilder().build();
     }
 }
